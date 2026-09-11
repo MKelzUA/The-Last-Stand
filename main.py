@@ -33,7 +33,9 @@ while running:
     dt = clock.tick(60) / 1000
     shoot_timer += dt
     if shoot_timer >=shoot_cooldown:
-        new_bullet = Bullet((400,540),(1,0), 600)
+        bullet_x = soldier1.rect.centerx + 35
+        bullet_y = soldier.rect.centery + 5
+        new_bullet = Bullet((bullet_x,bullet_y),(1,0), 600)
         bullets.add(new_bullet)
         shoot_timer = 0
     for event in pygame.event.get():
