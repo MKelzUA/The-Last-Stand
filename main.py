@@ -3,6 +3,7 @@ import sys
 import pygame
 from soldier import Soldier
 from bullet import Bullet
+from enemy import Enemy
 
 pygame.init()
 #Window settings
@@ -25,7 +26,10 @@ test_bullet = Bullet((400,540),(1,0), 600)
 bullets.add(test_bullet)
 shoot_cooldown = 0.5
 shoot_timer = 0
-
+#Enemy Group
+enemies = pygame.sprite.Group()
+test_enemy = Enemy(1200, 540)
+enemies.add(test_enemy)
 
 # Main game loop
 running = True
@@ -34,8 +38,12 @@ while running:
     shoot_timer += dt
     if shoot_timer >=shoot_cooldown:
         bullet_x = soldier1.rect.centerx + 35
-        bullet_y = soldier.rect.centery + 5
-        new_bullet = Bullet((bullet_x,bullet_y),(1,0), 600)
+        bullet_y = soldier1.rect.centery + 5
+        start_pos = pygame.Vector2(bullet_x, bullet_y)
+        target_pos = pygame.Vector2(test_enemy.rect.center)
+        direction = target_pos - start_pos
+        direction = direction.normalize()
+        new_bullet = Bullet(start_pos, direction, 600)
         bullets.add(new_bullet)
         shoot_timer = 0
     for event in pygame.event.get():
@@ -54,15 +62,16 @@ while running:
                 selected_soldier.is_selected = False
                 selected_soldier = None
     
-                
+    enemies.update()            
     soldiers.update (dt)
     bullets.update(dt)
     screen.fill((30, 30, 30))
+    enemies.draw(screen)
     soldiers.draw(screen)
     bullets.draw(screen)
     for soldier in soldiers:
         soldier.draw_selection(screen)
-    pygame.display.flip()
+    pygame.display.flip()\
 
 pygame.quit()
 sys.exit()
