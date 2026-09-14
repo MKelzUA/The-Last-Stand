@@ -61,6 +61,15 @@ while running:
                 selected_soldier.target_y = mouse_pos[1]
                 selected_soldier.is_selected = False
                 selected_soldier = None
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_2:
+                test_enemy.set_state("attacking")
+            elif event.key == pygame.K_3:
+                test_enemy.set_state("death")
+            elif event.key == pygame.K_1:
+                test_enemy.set_state("walking")
+                     
+
     
     enemies.update()            
     soldiers.update (dt)
