@@ -74,6 +74,16 @@ while running:
     enemies.update()            
     soldiers.update (dt)
     bullets.update(dt)
+    for bullet in bullets:
+        hit_enemies = pygame.sprite.spritecollide(
+        bullet,
+        enemies,
+        False
+    )
+
+    for enemy in hit_enemies:
+        enemy.take_damage(25)
+        bullet.kill()
     screen.fill((30, 30, 30))
     enemies.draw(screen)
     soldiers.draw(screen)

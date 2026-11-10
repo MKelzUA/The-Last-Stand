@@ -16,7 +16,8 @@ class Enemy(pygame.sprite.Sprite):
         self.state = "walking"
         self.current_frame = 0.0
         self.animation_speed = 0.15
-
+        self.health = 100
+        self.is_dead = False
         self.position = pygame.Vector2(x,y)
 
         self.image = self.animations[self.state][0]
@@ -59,7 +60,19 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.flip(raw_frame, True, False)
     def update(self):
         self.animate()
+
     def set_state(self, new_state):
         if self.state != new_state:
             self.state = new_state
             self.current_frame = 0.0
+
+    def take_damage(self, damage):
+        if self.is_dead:
+            return
+
+        self.health -= damage
+
+        if self.health <= 0:
+            self.health = 0
+            self.is_dead = True
+            self.set_state("death")
